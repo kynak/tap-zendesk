@@ -216,8 +216,9 @@ def do_create_configs_start_cron():
 
     cron = CronTab(user='root')
     job = cron.new(command='tap-zendesk -c config.json --catalog help-desk-catalog.json | target-stitch --config target_config.json >> /var/log/cron.log 2>&1')
-    # job = cron.new(command='echo "hello world" >> /var/log/cron.log 2>&1')
-    job.minute.every(1)
+    job.minute.on(5)
+    job.hour.on(2)
+    job.enable()
     cron.write()
 
 @singer.utils.handle_top_exception(LOGGER)
